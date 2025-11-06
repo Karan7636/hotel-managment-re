@@ -1,23 +1,16 @@
-/* project.c
-   NeuroStay - AI-Based Hotel Management System (Windows Compatible)
-   Works fully on Windows (MinGW, Code::Blocks, VS Code).
-   No external libraries or windows.h needed.
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-/* For Windows clear screen */
 #ifdef _WIN32
   #define CLEAR_CMD "cls"
 #else
   #define CLEAR_CMD "clear"
 #endif
 
-/* ------------------- CUSTOM FIX ------------------- */
-/* strcasestr() replacement for Windows */
+
 char *strcasestr(const char *haystack, const char *needle) {
     if (!haystack || !needle) return NULL;
 
@@ -33,7 +26,7 @@ char *strcasestr(const char *haystack, const char *needle) {
     return NULL;
 }
 
-/* strncasecmp() replacement for Windows */
+
 int strncasecmp(const char *s1, const char *s2, size_t n) {
     for (size_t i = 0; i < n; i++) {
         unsigned char c1 = tolower((unsigned char)s1[i]);
@@ -44,7 +37,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n) {
     return 0;
 }
 
-/* -------------------------------------------------- */
+
 
 struct Booking {
     char name[64];
@@ -53,11 +46,11 @@ struct Booking {
     float price;
 };
 
-/* Pause for user */
+
 void pause_console() {
     printf("\nPress ENTER to continue...");
     int c;
-    while ((c = getchar()) != '\n' && c != EOF) {} /* flush buffer */
+    while ((c = getchar()) != '\n' && c != EOF) {} 
     getchar();
 }
 
@@ -75,7 +68,7 @@ void mainMenu() {
     printf("Choose an option: ");
 }
 
-/* Save booking to file */
+
 void write_booking(const struct Booking *b) {
     FILE *f = fopen("bookings.txt", "a");
     if (!f) {
@@ -86,7 +79,7 @@ void write_booking(const struct Booking *b) {
     fclose(f);
 }
 
-/* Save feedback to file */
+
 void write_feedback(const char *name, const char *text, int rating) {
     FILE *f = fopen("feedback.txt", "a");
     if (!f) {
@@ -97,7 +90,7 @@ void write_feedback(const char *name, const char *text, int rating) {
     fclose(f);
 }
 
-/* Booking function */
+
 void bookRoom() {
     struct Booking b;
     char buf[256];
@@ -123,7 +116,7 @@ void bookRoom() {
     printf("\nBooking saved for %s. Total = ₹%.2f\n", b.name, b.price);
 }
 
-/* Feedback system */
+
 void feedbackSystem() {
     char name[64], text[256];
     printf("\nEnter your name: ");
@@ -146,7 +139,7 @@ void feedbackSystem() {
     printf("\nThanks %s — your feedback is recorded.\n", name);
 }
 
-/* AI Suggestion (reads feedback.txt) */
+
 void aiSuggestion() {
     FILE *f = fopen("feedback.txt", "r");
     if (!f) {
@@ -174,7 +167,7 @@ void aiSuggestion() {
         printf("Neutral feedback — focus on STANDARD rooms.\n");
 }
 
-/* Show report */
+
 void showReport() {
     FILE *f = fopen("bookings.txt", "r");
     if (!f) {
@@ -204,7 +197,6 @@ void showReport() {
     printf("Total revenue : ₹%.2f\n", revenue);
 }
 
-/* MAIN */
 int main() {
     char buf[32];
     while (1) {
